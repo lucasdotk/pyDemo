@@ -4,17 +4,29 @@
 # @Author  : kuangchao@zingfront.com
 # @File    : reverseNode.py
 # @Description :
+
+
 class Node:
-    def __init__(self, val, nxt):
+    val = 0
+    next = None
+
+    def __init__(self, val):
         self.val = val
-        self.next = nxt
 
 
-def flutter(node: Node, start, end):
+def flutter(node: Node, start: int, end: int):
     count = 0
     prev = None
+    first_skip = False if start == 0 else True
     while node:
         if start <= count <= end:
+            # 防止出现两个节点互指
+            if first_skip:
+                prev = node
+                node = node.next
+                prev.next = None
+                first_skip = False
+                continue
             tmp = node.next
             node.next = prev
             prev = node
@@ -26,20 +38,18 @@ def flutter(node: Node, start, end):
     return prev
 
 
-def x(node: Node):
-    if node is None:
-        return
+node1 = Node(1)
+node2 = Node(2)
+node3 = Node(3)
+node4 = Node(4)
 
-    if node:
-        node = x(node.next)
+node1.next = node2
+node2.next = node3
+node3.next = node4
 
-
-node1 = Node(1, None)
-node2 = Node(2, node1)
-node3 = Node(3, node2)
-node4 = Node(4, node3)
-
-node = flutter(node4, 0, 3)
-while node:
-    print(node.val)
-    node = node.next
+head = flutter(node1, 1, 3)
+for n in [node1, node2, node3, node4]:
+    if n.next:
+        print("cur是{}，next是{}".format(n.val, n.next.val))
+    else:
+        print("cur是{}，next是None".format(n.val))

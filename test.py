@@ -5,5 +5,8 @@
 # @File    : test.py
 # @Description :
 
+import redis
+
 print("hello,lucasdotk")
 print("hello,lucasdotk@163.com")
+
