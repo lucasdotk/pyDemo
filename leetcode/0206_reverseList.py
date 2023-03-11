@@ -9,8 +9,15 @@ class Solution:
     def reverseList(self, head: ListNode) -> ListNode:
         prev, cur = None, None
         while head:
-            prev = head
+            cur = head
             head = head.next
-            prev.next = cur
-            cur = prev
+            cur.next = prev
+            prev = cur
+
+        # cur, nxt = None, None
+        # while head:
+        #     nxt = head.next
+        #     head.next = cur
+        #     cur = head
+        #     head = nxt
         return cur
