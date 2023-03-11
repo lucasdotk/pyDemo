@@ -32,3 +32,17 @@ def generate(node_list: List[int]) -> TreeNode:
                 node.right = right_node
                 node_q.put(right_node)
     return root
+
+
+def inorder(root: TreeNode) -> List[int]:
+    res = []
+
+    def recursive(node: TreeNode):
+        if not node:
+            return
+        recursive(node.left)
+        res.append(node.val)
+        recursive(node.right)
+
+    recursive(root)
+    return res
