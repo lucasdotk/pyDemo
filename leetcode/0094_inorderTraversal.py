@@ -1,6 +1,7 @@
 # Definition for a binary tree node.
-from queue import Queue
+from collections import deque
 from typing import Optional, List
+from leetcode.utils import generate
 
 
 class TreeNode:
@@ -24,38 +25,25 @@ class Solution:
         recursive(root)
         return res
 
+    def inorder(self, root:Optional[TreeNode]) -> List[int]:
+        """
+        使用栈完成中序遍历
+        """
+        stack = deque()
+        res = []
+        while root or len(stack) > 0:
+            while root:
+                stack.append(root)
+                root = root.left
+
+            root = stack.pop()
+            res.append(root.val)
+            root = root.right
+        return res
+
 
 alist = [1, None, 2, 3]
 
-
-def generate(node_list: List[int]) -> TreeNode:
-    if len(node_list) == 0:
-        return TreeNode()
-
-    q = Queue()
-    [q.put(i) for i in node_list]
-
-    node_q = Queue()
-    root = TreeNode(val=q.get())
-    node_q.put(root)
-    while not node_q.empty():
-
-        node = node_q.get()
-        if not q.empty():
-            left = q.get()
-            if left:
-                left_node = TreeNode(val=left)
-                node.left = left_node
-                node_q.put(left_node)
-
-        if not q.empty():
-            right = q.get()
-            if right:
-                right_node = TreeNode(val=right)
-                node.right = right_node
-                node_q.put(right_node)
-
-    return root
 
 test = generate(alist)
 print(test.val)
@@ -65,3 +53,4 @@ print(test.right.left.val)
 
 s = Solution()
 print(s.inorderTraversal(test))
+print(s.inorder(test))
