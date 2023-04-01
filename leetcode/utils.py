@@ -1,3 +1,4 @@
+from collections import deque
 from queue import Queue
 from typing import List
 
@@ -46,3 +47,17 @@ def inorder(root: TreeNode) -> List[int]:
 
     recursive(root)
     return res
+
+
+def inorder_stack(root: TreeNode):
+    stack = deque()
+    res = []
+    node = root
+
+    while len(stack) > 0 and root:
+        while node:
+            stack.append(node)
+            node = node.left
+        node = stack.pop()
+        res.append(node.val)
+        node = node.right
