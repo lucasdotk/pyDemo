@@ -1,4 +1,6 @@
 # Definition for a binary tree node.
+import sys
+from collections import deque
 from typing import Optional
 from leetcode.utils import generate
 
@@ -51,9 +53,30 @@ class Solution:
 
         return recursive(root)
 
+    def isValidBST3(self, root: Optional[TreeNode]) -> bool:
+        """
+        optimize by using stack monitor inorder dfs
+        """
+
+        q = deque()
+        last = -sys.maxsize
+
+        while root or len(q) > 0:
+            while root:
+                q.append(root)
+                root = root.left
+            root = q.pop()
+            if last > root.val:
+                return False
+            last = root.val
+            root = root.right
+
+        return True
+
 
 root = generate([2, 1, 3])
 # root = generate([1, 1])
 
 s = Solution()
 print(s.isValidBST2(root))
+print(s.isValidBST3(root))
